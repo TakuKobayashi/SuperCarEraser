@@ -39,6 +39,8 @@ app.get('/jquery/jquery.js', function(req, res) {
 });
 
 app.get('/', function(req, res){
+  console.log(req.query);
+  console.log(req.body);
   res.sendFile(__dirname + '/index.html');
 });
 
