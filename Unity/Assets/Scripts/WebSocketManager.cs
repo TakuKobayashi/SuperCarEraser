@@ -7,11 +7,10 @@ using Newtonsoft.Json;
 public class WebSocketManager : SingletonBehaviour<WebSocketManager>{
 
 	private WebSocket ws = null;
-    public Action<MessageEventArgs> OnReceiveMessage = null;
+    public Action<string> OnReceiveMessage = null;
     private List<MessageEventArgs> receiveMessageQueue = new List<MessageEventArgs>();
 
 	void Start () {
-        Connect("wss://taptappun.net/streaming");
 	}
 	
 	void Update () {
@@ -19,7 +18,7 @@ public class WebSocketManager : SingletonBehaviour<WebSocketManager>{
 			for (int i = 0; i < receiveMessageQueue.Count; ++i)
 			{
                 if(OnReceiveMessage != null){
-                    OnReceiveMessage(receiveMessageQueue[i]);
+					OnReceiveMessage(receiveMessageQueue[i].Data);
                 }
     		}
             receiveMessageQueue.Clear();
@@ -37,7 +36,7 @@ public class WebSocketManager : SingletonBehaviour<WebSocketManager>{
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("action", "connection");
 			param.Add("path", "twitter_sample");
-            //ws.Send(JsonConvert.SerializeObject(param));
+            ws.Send(JsonConvert.SerializeObject(param));
 		};
 
 		// メッセージを受信.
