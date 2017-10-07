@@ -37,7 +37,7 @@ public class WebSocketManager : SingletonBehaviour<WebSocketManager>{
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("action", "connection");
 			param.Add("path", "twitter_sample");
-            ws.Send(JsonConvert.SerializeObject(param));
+            //ws.Send(JsonConvert.SerializeObject(param));
 		};
 
 		// メッセージを受信.
