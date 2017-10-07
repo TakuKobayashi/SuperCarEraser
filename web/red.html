@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<title>redさんの戦歴</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; padding:20px;}
+table{border: solid 1px #000000; border-collapse:collapse;}
+table th, table td{border: solid 1px #000000; padding: 0.4em;}
+table th{font-weight:bold; text-align:center;}
+table td{text-align:left;}
+table td.right{text-align:right;}
+.big_bold{font-size:160%; font-weight:bold;}
+</style>
+
+</head>
+
+<body>
+<div class="big_bold">redさんの戦歴</div>
+<div id="history_table"></div>
+<div style="margin-top:2em;">
+  <span class="big_bold" style="margin-right:0.4em;">総獲得ポイント</span>
+  <span id="total_point">0</span>
+  <span>ポイント</span>
+</div>
+<div><a href="point.html">&gt;&gt;ポイント交換</a>
+
+
+<script type="text/javascript">
+function ajaxResultEmpty(){
+  jQuery('#history_table').html('戦歴がありません。');
+}
+
+jQuery(function(){
+  jQuery.ajax({
+    type: "GET",
+    url : 'https://testmmoos.herokuapp.com/ma_201710/history/red',
+    scriptCharset: 'utf-8',
+    success: function(resp){
+      if(resp==''){
+        ajaxResultEmpty();
+        return;
+      }
+
+      decoded = jQuery.parseJSON(resp);
+      if(decoded.length==0){
+        ajaxResultEmpty();
+        return;
+      }
+
+      var html = '';
+      html += '<table style="margin:10px 20px;">';
+      html += '<tr>';
+      html += '<th>対戦日時</th>';
+      html += '<th>対戦相手</th>';
+      html += '<th>与えたダメージ</th>';
+      html += '<th>受けたダメージ</th>';
+      html += '<th>獲得ポイント</th>';
+      html += '</tr>';
+
+      var totalPoint = 0;
+      for(var i=0; i<decoded.length; i++){
+        var row = decoded[i];
+        var insert_time = row['insert_time'];
+        var myID = row['user_1_name']=='red' ? 1 : 2;
+        var againstID = row['user_1_name']=='red' ? 2 : 1;
+        var againstName = row['user_'+againstID+'_name'];
+        var myDamage = row['user_'+myID+'_total_damage'];
+        var againstDamage = row['user_'+againstID+'_total_damage'];
+
+        var styleDamageMe = '';
+        var styleDamageAgainst = '';
+        var point = 0;
+        if(parseInt(myDamage)>parseInt(againstDamage)){
+          styleDamageMe = ' style="color:#FF0000;"';
+        }else{
+          styleDamageAgainst = ' style="color:#0000FF;"';
+          point = againstDamage - myDamage;
+        }
+        totalPoint += point;
+
+        html += '<tr>';
+        html += '<td>'+insert_time+'</td>';
+        html += '<td>'+againstName+'</td>';
+        html += '<td class="right"'+styleDamageAgainst+'>'+againstDamage+'</td>';
+        html += '<td class="right"'+styleDamageMe+'>'+myDamage+'</td>';
+        html += '<td class="right">'+point+'</td>';
+        html += '</tr>'
+      }
+      html += '</table>';
+      jQuery('#history_table').html(html);
+      jQuery('#total_point').html(totalPoint);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      jQuery('#history_table').html(errorThrown.message);
+    }
+  });
+});
+</script>
+</body>
+</html>
