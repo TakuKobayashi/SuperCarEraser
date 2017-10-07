@@ -1,0 +1,30 @@
+{
+  "name": "simple_socket",
+  "version": "0.0.1",
+  "description": "A simple chat client using socket.io and websocket",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "TakuKobayashi",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "*",
+    "express": "^4.16.1",
+    "jquery": "*",
+    "nodemon": "*",
+    "socket.io": "^2.0.3",
+    "ws": "^3.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TakuKobayashi/simple_socket"
+  },
+  "keywords": [
+    "node",
+    "websocket",
+    "express",
+    "socket.io"
+  ]
+}
