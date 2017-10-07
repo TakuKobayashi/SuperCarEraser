@@ -44,6 +44,7 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
   console.log(req.query);
+  console.log(req.body);
   res.sendStatus(200)
 });
 
