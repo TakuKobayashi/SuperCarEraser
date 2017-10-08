@@ -27,10 +27,10 @@ var hp = {"type":0,"red":100,"blue":100};
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	ws.send(hp);
+	ws.send(JSON.stringify(hp));
 
 	var turnInfo = {"type":"1", "next_turn":turn};
-	ws.send(turnInfo);
+	ws.send(JSON.stringify(turnInfo));
 
 	ws.on('close', function () {
 		console.log('close');
@@ -70,8 +70,8 @@ app.post('/blue', function(req, res){
 
 function setPostData(message){
 	console.log('message:', message);
-	//var decodedArray = JSON.parse(message);
-	var decodedArray = message;
+	var decodedArray = JSON.parse(message);
+	//var decodedArray = message;
 	
 	if(decodedArray['device']!=undefined && decodedArray['speed']!=undefined){
 		if(decodedArray['device']==turn){
@@ -86,14 +86,14 @@ function setPostData(message){
 			// unityにjson送る
 			var messageForUnity = {"type":"2", "attacked":attacked, "damage":damage};
 			connections.forEach(function (con, i) {
-				con.send(messageForUnity);
+				con.send(JSON.stringify(messageForUnity));
 			});
 
 			// ターン変更
 			turn = decodedArray['device'];
 			var messageForUnity = {"type":"1", "next_turn":turn};
 			connections.forEach(function (con, i) {
-				con.send(messageForUnity);
+				con.send(JSON.stringify(messageForUnity));
 			});
 
 			// HP減少を計算
@@ -105,8 +105,8 @@ function setPostData(message){
 				var options = {
 				  uri: 'https://testmmoos.herokuapp.com/ma_201710/save_result',
 				  headers: {
-					"Content-type": "application/x-www-form-urlencoded",
-					},
+				    "Content-type": "application/x-www-form-urlencoded",
+				  },
 				  form: {
 				    'user_1_id': 1,
 					'user_2_id': 2,
