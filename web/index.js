@@ -18,7 +18,9 @@ var wss = new WebSocketServer({server:server});
 
 var connections = [];
 
+// 初期値：作り込む時はちゃんとセットする。
 var turn = 'red'; // 初回はredの攻撃
+var hp = {"red":100,"blue":100};
 
 wss.on('connection', function (ws) {
 	console.log('connect!!');
@@ -38,16 +40,41 @@ wss.on('connection', function (ws) {
 			if(decodedArray['device']==turn){
 				// 攻撃側の動きなので無視
 			}else{
+				var attacked = decodedArray['device'];
 				var speed = decodedArray['speed'];
 
-				// unitにjson送る
-				var messageForUnit = '{"turn":'+turn+' "speed":'+speed+'}';
+				// ダメージ計算
+				var damage = speed;
+
+				// unityにjson送る
+				var messageForUnity = '{"attacked":"'+attacked+'", "damage":"'+damage+'"}';
 				connections.forEach(function (con, i) {
-					con.send(messageForUnit);
+					con.send(messageForUnity);
 				});
 
 				// ターン変更
 				turn = decodedArray['device'];
+
+				// HP減少を計算
+				hp[attacked] -= damage;
+				console.log('hp:', hp);
+				if(hp[attacked]<0){
+					// unityにゲーム終了のjson送る
+					/*
+					type: "POST",
+					url : 'https://testmmoos.herokuapp.com/ma_201710/save_result',
+					'user_1_id' => 1,
+					'user_2_id' => 2,
+					'user_1_hp_first' => 100,
+					'user_2_hp_first' => 100,
+					'damages' => hp
+					*/
+					// damagesは{{"red":10},{"blue":15},,,,,,,,}的な配列
+
+					// ゲームリセット
+					turn = 'red';
+					hp = {"red":100,"blue":100};
+				}
 			}
 		}
 	});
@@ -59,11 +86,7 @@ app.get('/jquery/jquery.js', function(req, res) {
 });
 
 app.get('/', function(req, res){
-<<<<<<< HEAD
 	res.sendFile(__dirname + '/index.html');
-});
-
-=======
   console.log(req.query);
   console.log(req.body);
   res.sendFile(__dirname + '/index.html');
@@ -74,7 +97,6 @@ app.post('/', function(req, res){
   console.log(req.body);
   res.sendStatus(200)
 });
->>>>>>> remotes/origin/master
 
 //サーバーと接続されると呼ばれる
 io.on('connection', function(socket){
