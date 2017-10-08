@@ -27,7 +27,7 @@ var hp = {"type":0,"red":100,"blue":100};
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	var hpString = '{"type":0,"red":100,"blue":100};';
+	var hpString = '{"type":0,"red":100,"blue":100}';
 	ws.send(JSON.parse(hpString));
 
 	var turnInfo = '{"type":"1", "next_turn":"'+turn+'"}';
@@ -108,7 +108,7 @@ function setPostData(message){
 				  headers: {
 					"Content-type": "application/x-www-form-urlencoded",
 					},
-				form: {
+				  form: {
 				    'user_1_id': 1,
 					'user_2_id': 2,
 					'user_1_hp_first': 100,
