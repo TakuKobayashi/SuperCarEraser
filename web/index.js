@@ -1,5 +1,9 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+
 var app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 var port = process.env.PORT || 4000;
 
@@ -47,7 +51,6 @@ app.get('/', function(req, res){
 });
 
 app.post('/red', function(req, res){
-  console.log(req.query);
   console.log(req.body);
   res.sendStatus(200);
 
@@ -55,7 +58,6 @@ app.post('/red', function(req, res){
 });
 
 app.post('/blue', function(req, res){
-  console.log(req.query);
   console.log(req.body);
   res.sendStatus(200);
 
