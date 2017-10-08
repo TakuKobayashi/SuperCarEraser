@@ -27,7 +27,7 @@ var hp = {"red":100,"blue":100};
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	ws.send(hp);
+	ws.send(JSON.stringify(hp));
 
 	ws.on('close', function () {
 		console.log('close');
