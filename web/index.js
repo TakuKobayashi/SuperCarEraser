@@ -27,6 +27,7 @@ var hp = {"red":100,"blue":100};
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
+	ws.send(hp);
 
 	ws.on('close', function () {
 		console.log('close');
@@ -92,7 +93,7 @@ function setPostData(message){
 			hp[attacked] -= damage;
 			console.log('hp:', hp);
 			if(hp[attacked]<0){
-				// unityにゲーム終了のjson送る
+				// データを外部サーバにPOST
 				/*
 				type: "POST",
 				url : 'https://testmmoos.herokuapp.com/ma_201710/save_result',
