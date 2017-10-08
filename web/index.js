@@ -86,13 +86,18 @@ app.get('/jquery/jquery.js', function(req, res) {
 });
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
   console.log(req.query);
   console.log(req.body);
-  res.sendFile(__dirname + '/index.html');
+	res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/', function(req, res){
+app.post('/red', function(req, res){
+  console.log(req.query);
+  console.log(req.body);
+  res.sendStatus(200)
+});
+
+app.post('/blue', function(req, res){
   console.log(req.query);
   console.log(req.body);
   res.sendStatus(200)
