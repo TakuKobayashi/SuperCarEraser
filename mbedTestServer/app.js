@@ -16,9 +16,9 @@ var index = require('./routes/index')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 // ポート設定
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

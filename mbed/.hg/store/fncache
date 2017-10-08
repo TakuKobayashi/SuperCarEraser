@@ -1,0 +1,9 @@
+data/MMA7660.lib.i
+data/PowerControl.lib.i
+data/EthernetInterface.lib.i
+data/mbed.bld.i
+data/SNICInterface_mod.lib.i
+data/HTTPClient.lib.i
+data/main.cpp.i
+data/mbed-rtos.lib.i
+data/SNICInterface.lib.i
