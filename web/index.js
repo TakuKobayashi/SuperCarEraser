@@ -27,10 +27,13 @@ var hp = {"type":0,"red":100,"blue":100};
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	ws.send(JSON.stringify(hp));
+
+	var jsonString = JSON.stringify(hp);
+	ws.send(jsonString);
 
 	var turnInfo = {"type":"1", "next_turn":turn};
-	ws.send(JSON.stringify(turnInfo));
+	var jsonString = JSON.stringify(turnInfo);
+	ws.send(jsonString);
 
 	ws.on('close', function () {
 		console.log('close');
@@ -70,8 +73,8 @@ app.post('/blue', function(req, res){
 
 function setPostData(message){
 	console.log('message:', message);
-	var decodedArray = JSON.parse(message);
-	//var decodedArray = message;
+	//var decodedArray = JSON.parse(message);
+	var decodedArray = message;
 	
 	if(decodedArray['device']!=undefined && decodedArray['speed']!=undefined){
 		if(decodedArray['device']==turn){
@@ -86,14 +89,18 @@ function setPostData(message){
 			// unityにjson送る
 			var messageForUnity = {"type":"2", "attacked":attacked, "damage":damage};
 			connections.forEach(function (con, i) {
-				con.send(JSON.stringify(messageForUnity));
+				var jsonString = JSON.stringify(messageForUnity);
+				con.send(jsonString);
+				console.log(jsonString);
 			});
 
 			// ターン変更
 			turn = decodedArray['device'];
 			var messageForUnity = {"type":"1", "next_turn":turn};
 			connections.forEach(function (con, i) {
-				con.send(JSON.stringify(messageForUnity));
+				var jsonString = JSON.stringify(messageForUnity);
+				con.send(jsonString);
+				console.log(jsonString);
 			});
 
 			// HP減少を計算
