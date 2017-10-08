@@ -45,24 +45,28 @@ public class CarController : MonoBehaviour {
 			blueCar.Reset ();
 		// ダメージを与えた
 		}else if(receiveMessage["type"] == "2"){
-            float damage = float.Parse(receiveMessage["damage"]);
+			float damage = Mathf.Abs(float.Parse(receiveMessage["damage"]));
             if(receiveMessage["attacked"] == "red"){
 				float beforeRedHp = redHp;
-                redHp = redHp - damage;
+				redHp = Mathf.Max(redHp - damage, 0);
                 StartCoroutine(mainUi.RedSliderScroll(redHp));
 				blueCar.Attack(-(100f * damage / beforeRedHp));
 				exhaustAudio.Play ();
             }else{
 				float beforeBlueHp = blueHp;
-				blueHp = blueHp - damage;
+				blueHp = Mathf.Max(blueHp - damage, 0);
                 StartCoroutine(mainUi.BlueSliderScroll(blueHp));
 				redCar.Attack((100f * damage / beforeBlueHp));
 				exhaustAudio.Play ();
             }
 			if (redHp <= 0) {
 				mainUi.ShowWinner (true);
+				blueHp = 100;
+				redHp = 100;
 			}else if(blueHp <= 0){
 				mainUi.ShowWinner (false);
+				blueHp = 100;
+				redHp = 100;
 			}
         }
 
