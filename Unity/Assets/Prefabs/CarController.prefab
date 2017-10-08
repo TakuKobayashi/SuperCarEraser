@@ -1597,8 +1597,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: edfeaf550ae7b496987e843c35f92ffb, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 81df698b32aee443b94731add6520ee6, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1704,3 +1704,4 @@ MonoBehaviour:
   redCar: {fileID: 114263249516745758}
   blueCar: {fileID: 114592357185535034}
   mainUi: {fileID: 0}
+  exhaustAudio: {fileID: 82718206301250308}

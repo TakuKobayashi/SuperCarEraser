@@ -7,6 +7,7 @@ public class CarController : MonoBehaviour {
 	[SerializeField] BattleCar redCar;
 	[SerializeField] BattleCar blueCar;
 	[SerializeField] MainUI mainUi;
+	[SerializeField] AudioSource exhaustAudio;
 
 	private float redHp = 100;
 	private float blueHp = 100;
@@ -16,12 +17,13 @@ public class CarController : MonoBehaviour {
 		//WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
 		redCar.SetOpponentCar (blueCar);
 		blueCar.SetOpponentCar (redCar);
-		//StartCoroutine (move());
+		StartCoroutine (move());
 	}
 
 	private IEnumerator move(){
 		yield return new WaitForSeconds (1.0f);
 		blueCar.Attack (-100f);
+		exhaustAudio.Play ();
 	}
 
 	public void OnReceiveMessage(string message){
@@ -49,11 +51,13 @@ public class CarController : MonoBehaviour {
                 redHp = redHp - damage;
                 StartCoroutine(mainUi.RedSliderScroll(redHp));
 				blueCar.Attack(-(100f * damage / beforeRedHp));
+				exhaustAudio.Play ();
             }else{
 				float beforeBlueHp = blueHp;
 				blueHp = blueHp - damage;
                 StartCoroutine(mainUi.BlueSliderScroll(blueHp));
 				redCar.Attack((100f * damage / beforeBlueHp));
+				exhaustAudio.Play ();
             }
 			if (redHp <= 0) {
 				mainUi.ShowWinner (true);
