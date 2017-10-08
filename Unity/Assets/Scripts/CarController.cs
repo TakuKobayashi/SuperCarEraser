@@ -41,6 +41,7 @@ public class CarController : MonoBehaviour {
 			} else {
 				mainUi.AnnounceBlueTurn();
 			}
+			StopCoroutine (ReetPosition());
 			redCar.Reset ();
 			blueCar.Reset ();
 		// ダメージを与えた
@@ -68,8 +69,14 @@ public class CarController : MonoBehaviour {
 				blueHp = 100;
 				redHp = 100;
 			}
+			StartCoroutine (ReetPosition());
         }
+	}
 
+	IEnumerator ReetPosition(){
+		yield return new WaitForSeconds (5.0f);
+		redCar.Reset ();
+		blueCar.Reset ();
 	}
 
 	void OnDestroy(){
