@@ -27,11 +27,10 @@ var hp = {"type":0,"red":100,"blue":100};
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	var hpString = '{"type":0,"red":100,"blue":100}';
-	ws.send(JSON.parse(hpString));
+	ws.send(hp);
 
-	var turnInfo = '{"type":"1", "next_turn":"'+turn+'"}';
-	ws.send(JSON.parse(turnInfo));
+	var turnInfo = {"type":"1", "next_turn":turn};
+	ws.send(turnInfo);
 
 	ws.on('close', function () {
 		console.log('close');
@@ -85,16 +84,16 @@ function setPostData(message){
 			var damage = speed;
 
 			// unityにjson送る
-			var messageForUnity = '{"type":"2", "attacked":"'+attacked+'","damage":"'+damage+"'}";
+			var messageForUnity = {"type":"2", "attacked":attacked, "damage":damage};
 			connections.forEach(function (con, i) {
-				con.send(JSON.parse(messageForUnity));
+				con.send(messageForUnity);
 			});
 
 			// ターン変更
 			turn = decodedArray['device'];
-			var messageForUnity = '{"type":"1", "next_turn":"'+turn+'"}';
+			var messageForUnity = {"type":"1", "next_turn":turn};
 			connections.forEach(function (con, i) {
-				con.send(JSON.parse(messageForUnity));
+				con.send(messageForUnity);
 			});
 
 			// HP減少を計算
