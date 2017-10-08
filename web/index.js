@@ -22,14 +22,15 @@ var connections = [];
 
 // 初期値：作り込む時はちゃんとセットする。
 var turn = 'red'; // 初回はredの攻撃
-var hp = {"type":"0","red":100,"blue":100};
+var hp = {"red":100,"blue":100};
+var hpForUnity = {"type":"0","red":"100","blue":"100"};
 
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	ws.send(JSON.stringify(hp));
+	ws.send(JSON.stringify(hpForUnity));
 
-	var turnInfo = '{"type":"1", "next_turn":'+turn+'}';
+	var turnInfo = '{"type":"1", "next_turn":"'+turn+'"}';
 	ws.send(JSON.stringify(turnInfo));
 
 	ws.on('close', function () {
@@ -86,14 +87,14 @@ function setPostData(message){
 			// unityにjson送る
 			var messageForUnity = '{"type":"2", attacked":"'+attacked+'", "damage":"'+damage+'"}';
 			connections.forEach(function (con, i) {
-				con.send(messageForUnity);
+				con.send(JSON.stringify(messageForUnity));
 			});
 
 			// ターン変更
 			turn = decodedArray['device'];
-			var messageForUnity = '{"type":"1", "next_turn":'+turn+'}';
+			var messageForUnity = '{"type":"1", "next_turn":"'+turn+'"}';
 			connections.forEach(function (con, i) {
-				con.send(messageForUnity);
+				con.send(JSON.stringify(messageForUnity));
 			});
 
 			// HP減少を計算
