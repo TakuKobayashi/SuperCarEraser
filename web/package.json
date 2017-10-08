@@ -10,22 +10,28 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "body-parser": "*",
     "ejs": "*",
     "express": "^4.16.1",
     "jquery": "*",
     "nodemon": "*",
+    "request": "^2.83.0",
     "socket.io": "^2.0.3",
-    "ws": "^3.2.0",
-    "body-parser": "*"
+    "ws": "^3.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TakuKobayashi/simple_socket"
+    "url": "git+https://github.com/TakuKobayashi/simple_socket.git"
   },
   "keywords": [
     "node",
     "websocket",
     "express",
     "socket.io"
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/TakuKobayashi/simple_socket/issues"
+  },
+  "homepage": "https://github.com/TakuKobayashi/simple_socket#readme",
+  "devDependencies": {}
 }

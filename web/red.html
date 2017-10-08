@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="css/all_pure.css" />
 
 <style>
+body{padding:20px;}
 table td.right{text-align:right;}
 .big_bold{font-size:160%; font-weight:bold;}
 </style>
@@ -47,6 +48,7 @@ jQuery(function(){
 
       var html = '';
       html += '<table class="pure-table pure-table-striped" style="margin:10px 20px;">';
+      html += '<thead>';
       html += '<tr>';
       html += '<th>対戦日時</th>';
       html += '<th>対戦相手</th>';
@@ -54,6 +56,8 @@ jQuery(function(){
       html += '<th>受けたダメージ</th>';
       html += '<th>獲得ポイント</th>';
       html += '</tr>';
+      html += '</thead>';
+      html += '<tbody>';
 
       var totalPoint = 0;
       for(var i=0; i<decoded.length; i++){
@@ -84,6 +88,7 @@ jQuery(function(){
         html += '<td class="right">'+point+'</td>';
         html += '</tr>'
       }
+      html += '</tbody>';
       html += '</table>';
       jQuery('#history_table').html(html);
       jQuery('#total_point').html(totalPoint);
