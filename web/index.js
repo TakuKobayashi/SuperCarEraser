@@ -30,7 +30,7 @@ wss.on('connection', function (ws) {
 	connections.push(ws);
 	ws.send(JSON.stringify(hpForUnity));
 
-	var turnInfo = '{"type":"1", "next_turn":"'+turn+'"}';
+	var turnInfo = {"type":"1", "next_turn":turn};
 	ws.send(JSON.stringify(turnInfo));
 
 	ws.on('close', function () {
@@ -85,14 +85,14 @@ function setPostData(message){
 			var damage = speed;
 
 			// unityにjson送る
-			var messageForUnity = '{"type":"2", attacked":"'+attacked+'", "damage":"'+damage+'"}';
+			var messageForUnity = {"type":"2", "attacked":attacked, "damage":damage};
 			connections.forEach(function (con, i) {
 				con.send(JSON.stringify(messageForUnity));
 			});
 
 			// ターン変更
 			turn = decodedArray['device'];
-			var messageForUnity = '{"type":"1", "next_turn":"'+turn+'"}';
+			var messageForUnity = {"type":"1", "next_turn":turn};
 			connections.forEach(function (con, i) {
 				con.send(JSON.stringify(messageForUnity));
 			});
