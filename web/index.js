@@ -119,7 +119,7 @@ function setPostData(message){
 				
 				// ゲームリセット
 				turn = 'red';
-				hp = {"red":100,"blue":100};
+				hp = {"type":0,"red":100,"blue":100};
 			}
 		}
 	}
