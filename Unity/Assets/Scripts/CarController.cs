@@ -14,10 +14,10 @@ public class CarController : MonoBehaviour {
 
 	void Start () {
 		WebSocketManager.Instance.Connect ("ws://tk2-254-36888.vs.sakura.ne.jp:4000/");
-		//WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
+		WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
 		redCar.SetOpponentCar (blueCar);
 		blueCar.SetOpponentCar (redCar);
-		StartCoroutine (move());
+		//StartCoroutine (move());
 	}
 
 	private IEnumerator move(){
