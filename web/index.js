@@ -23,6 +23,7 @@ var connections = [];
 // 初期値：作り込む時はちゃんとセットする。
 var turn = 'red'; // 初回はredの攻撃
 var hp = {"type":0,"red":100,"blue":100};
+var damages = [];
 
 wss.on('connection', function (ws) {
 	console.log('connect!!');
@@ -105,6 +106,8 @@ function setPostData(message){
 
 			// HP減少を計算
 			hp[attacked] -= damage;
+			damages.push({attacked:damage});
+			console.log('damages:',damages);
 			console.log('hp:', hp);
 			if(hp[attacked]<0){
 				// データを外部サーバにPOST
@@ -119,7 +122,7 @@ function setPostData(message){
 					'user_2_id': 2,
 					'user_1_hp_first': 100,
 					'user_2_hp_first': 100,
-					'damages': hp
+					'damages': damages
 				  }
 				};
 				request.post(options, function(error, response, body){});
@@ -127,6 +130,7 @@ function setPostData(message){
 				// ゲームリセット
 				turn = 'red';
 				hp = {"type":0,"red":100,"blue":100};
+				damages = [];
 			}
 		}
 	}
