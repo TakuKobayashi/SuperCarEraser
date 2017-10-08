@@ -8,6 +8,7 @@ public class MainUI : MonoBehaviour {
 	[SerializeField] Slider blueSlider;
 	[SerializeField] Text turnText;
     [SerializeField] float reachSecond = 1.0f;
+	[SerializeField] float gageSecond = 0.5f;
 
 	public void AnnounceRedTurn(){
 		turnText.gameObject.SetActive (true);
@@ -43,13 +44,39 @@ public class MainUI : MonoBehaviour {
         turnText.gameObject.SetActive(false);
     }
 
-	public void ChangeRedSlider(string message){
-		Debug.Log (message);
-		redSlider.value = Random.Range (0, 100);
+	public void ChangeRedSlider(float sliderValue){
+		Debug.Log (sliderValue);
+		redSlider.value = sliderValue;
 	}
 
-	public void ChangeBlueSlider(string message){
-		Debug.Log (message);
-		blueSlider.value = Random.Range (0, 100);
+	public void ChangeBlueSlider(float sliderValue){
+		Debug.Log (sliderValue);
+		blueSlider.value = sliderValue;
+	}
+
+	public IEnumerator RedSliderScroll(float sliderValue)
+	{
+		float currentValue = redSlider.value;
+		float second = 0;
+		while (second < gageSecond)
+		{
+			redSlider.value = sliderValue + ((currentValue - sliderValue) * ((gageSecond - second) / gageSecond));
+			second += Time.deltaTime;
+			yield return null;
+		}
+		redSlider.value = sliderValue;
+	}
+
+    public IEnumerator BlueSliderScroll(float sliderValue)
+	{
+        float currentValue = blueSlider.value;
+        float second = 0;
+        while (second < gageSecond)
+        {
+            blueSlider.value = sliderValue + ((currentValue - sliderValue) * ((gageSecond - second) / gageSecond));
+			second += Time.deltaTime;
+            yield return null;
+        }
+		blueSlider.value = sliderValue;
 	}
 }
