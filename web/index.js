@@ -22,13 +22,12 @@ var connections = [];
 
 // 初期値：作り込む時はちゃんとセットする。
 var turn = 'red'; // 初回はredの攻撃
-var hp = {"red":100,"blue":100};
-var hpForUnity = {"type":"0","red":"100","blue":"100"};
+var hp = {"type":0,"red":100,"blue":100};
 
 wss.on('connection', function (ws) {
 	console.log('connect!!');
 	connections.push(ws);
-	ws.send(JSON.stringify(hpForUnity));
+	ws.send(JSON.stringify(hp));
 
 	var turnInfo = {"type":"1", "next_turn":turn};
 	ws.send(JSON.stringify(turnInfo));
