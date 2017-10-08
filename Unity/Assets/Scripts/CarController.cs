@@ -4,8 +4,8 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 public class CarController : MonoBehaviour {
-	[SerializeField] GameObject redCar;
-	[SerializeField] GameObject blueCar;
+	[SerializeField] BattleCar redCar;
+	[SerializeField] BattleCar blueCar;
 	[SerializeField] MainUI mainUi;
 
 	private float redHp = 100;
@@ -13,15 +13,15 @@ public class CarController : MonoBehaviour {
 
 	void Start () {
 		WebSocketManager.Instance.Connect ("ws://tk2-254-36888.vs.sakura.ne.jp:4000/");
-		WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
+		//WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
+		redCar.SetOpponentCar (blueCar);
+		blueCar.SetOpponentCar (redCar);
+		//StartCoroutine (move());
 	}
 
-	IEnumerator StayScroll()
-	{
-		yield return new WaitForSeconds(3.0f);
-        mainUi.AnnounceRedTurn();
-		yield return new WaitForSeconds(10.0f);
-        mainUi.AnnounceBlueTurn();
+	private IEnumerator move(){
+		yield return new WaitForSeconds (1.0f);
+		blueCar.Attack (-100f);
 	}
 
 	public void OnReceiveMessage(string message){
@@ -39,15 +39,21 @@ public class CarController : MonoBehaviour {
 			} else {
 				mainUi.AnnounceBlueTurn();
 			}
+			redCar.Reset ();
+			blueCar.Reset ();
 		// ダメージを与えた
 		}else if(receiveMessage["type"] == "2"){
             float damage = float.Parse(receiveMessage["damage"]);
             if(receiveMessage["attacked"] == "red"){
+				float beforeRedHp = redHp;
                 redHp = redHp - damage;
                 StartCoroutine(mainUi.RedSliderScroll(redHp));
+				blueCar.Attack(-(100f * damage / beforeRedHp));
             }else{
+				float beforeBlueHp = blueHp;
 				blueHp = blueHp - damage;
                 StartCoroutine(mainUi.BlueSliderScroll(blueHp));
+				redCar.Attack((100f * damage / beforeBlueHp));
             }
 			if (redHp <= 0) {
 				mainUi.ShowWinner (true);

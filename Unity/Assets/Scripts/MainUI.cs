@@ -65,12 +65,10 @@ public class MainUI : MonoBehaviour {
     }
 
 	public void ChangeRedSlider(float sliderValue){
-		Debug.Log (sliderValue);
 		redSlider.value = sliderValue;
 	}
 
 	public void ChangeBlueSlider(float sliderValue){
-		Debug.Log (sliderValue);
 		blueSlider.value = sliderValue;
 	}
 
