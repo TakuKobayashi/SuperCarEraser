@@ -94,13 +94,11 @@ app.get('/', function(req, res){
 });
 
 app.post('/red', function(req, res){
-  console.log(req.query);
   console.log(req.body);
   res.sendStatus(200)
 });
 
 app.post('/blue', function(req, res){
-  console.log(req.query);
   console.log(req.body);
   res.sendStatus(200)
 });
