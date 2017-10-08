@@ -49,6 +49,11 @@ public class CarController : MonoBehaviour {
 				blueHp = blueHp - damage;
                 StartCoroutine(mainUi.BlueSliderScroll(blueHp));
             }
+			if (redHp <= 0) {
+				mainUi.ShowWinner (true);
+			}else if(blueHp <= 0){
+				mainUi.ShowWinner (false);
+			}
         }
 
 	}

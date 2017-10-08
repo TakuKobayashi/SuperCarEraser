@@ -7,10 +7,14 @@ public class MainUI : MonoBehaviour {
 	[SerializeField] Slider redSlider;
 	[SerializeField] Slider blueSlider;
 	[SerializeField] Text turnText;
+	[SerializeField] Text winnerText;
     [SerializeField] float reachSecond = 1.0f;
 	[SerializeField] float gageSecond = 0.5f;
 
 	public void AnnounceRedTurn(){
+		if (winnerText.gameObject.activeSelf) {
+			return;
+		}
 		turnText.gameObject.SetActive (true);
 		turnText.color = Color.red;
 		turnText.text = "Red Turn";
@@ -18,10 +22,26 @@ public class MainUI : MonoBehaviour {
 	}
 
 	public void AnnounceBlueTurn(){
+		if (winnerText.gameObject.activeSelf) {
+			return;
+		}
 		turnText.gameObject.SetActive (true);
 		turnText.color = Color.blue;
 		turnText.text = "Blue Turn";
 		StartCoroutine(ScrollTurnTextCorutine());
+	}
+
+	public IEnumerator ShowWinner(bool isRed){
+		winnerText.gameObject.SetActive (true);
+		if (isRed) {
+			winnerText.color = Color.red;
+			winnerText.text = "Winner is Red";
+		} else {
+			winnerText.color = Color.blue;
+			winnerText.text = "Winner is Blue";
+		}
+		yield return new WaitForSeconds (4.0f);
+		winnerText.gameObject.SetActive (false);
 	}
 
     IEnumerator ScrollTurnTextCorutine(){

@@ -227,6 +227,15 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1658511434597750, guid: c506c05cabd2246d7ad64432f5d89fb1, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224038661948180034, guid: c506c05cabd2246d7ad64432f5d89fb1,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c506c05cabd2246d7ad64432f5d89fb1, type: 2}
   m_IsPrefabParent: 0
