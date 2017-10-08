@@ -8,7 +8,7 @@ public class CarController : MonoBehaviour {
 	[SerializeField] MainUI mainUi;
 
 	void Start () {
-		WebSocketManager.Instance.Connect ("wss://taptappun.net/streaming");
+		WebSocketManager.Instance.Connect ("ws://tk2-254-36888.vs.sakura.ne.jp:4000/");
 		WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
         StartCoroutine(StayScroll());
 	}

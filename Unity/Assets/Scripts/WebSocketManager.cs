@@ -33,10 +33,6 @@ public class WebSocketManager : SingletonBehaviour<WebSocketManager>{
 		this.ws.OnOpen += (sender, e) =>
 		{
 			Debug.Log("[WS] Open");
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("action", "connection");
-			param.Add("path", "twitter_sample");
-            ws.Send(JsonConvert.SerializeObject(param));
 		};
 
 		// メッセージを受信.

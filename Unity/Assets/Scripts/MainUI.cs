@@ -29,13 +29,11 @@ public class MainUI : MonoBehaviour {
         float second = 0;
         while(second < reachSecond){
             turnText.transform.localPosition = Vector3.Lerp(rightPosition, Vector3.zero, second / reachSecond);
-			Debug.Log(turnText.transform.localPosition);
             second += Time.deltaTime;
 			yield return null;
         }
         yield return new WaitForSeconds(1.0f);
         Vector3 leftPosition = new Vector3(-rightPosition.x, 0 , 0);
-		Debug.Log(leftPosition);
 		second = 0;
 		while (second < reachSecond)
 		{
