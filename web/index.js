@@ -31,50 +31,7 @@ wss.on('connection', function (ws) {
 		});
 	});
 	ws.on('message', function (message) {
-		console.log('message:', message);
-
-		var decodedArray = JSON.parse(message);
-		if(decodedArray['device']!=undefined && decodedArray['speed']!=undefined){
-			if(decodedArray['device']==turn){
-				// 攻撃側の動きなので無視
-			}else{
-				var attacked = decodedArray['device'];
-				var speed = decodedArray['speed'];
-
-				// ダメージ計算
-				var damage = speed;
-
-				// unityにjson送る
-				var messageForUnity = '{"attacked":"'+attacked+'", "damage":"'+damage+'"}';
-				connections.forEach(function (con, i) {
-					con.send(messageForUnity);
-				});
-
-				// ターン変更
-				turn = decodedArray['device'];
-
-				// HP減少を計算
-				hp[attacked] -= damage;
-				console.log('hp:', hp);
-				if(hp[attacked]<0){
-					// unityにゲーム終了のjson送る
-					/*
-					type: "POST",
-					url : 'https://testmmoos.herokuapp.com/ma_201710/save_result',
-					'user_1_id' => 1,
-					'user_2_id' => 2,
-					'user_1_hp_first' => 100,
-					'user_2_hp_first' => 100,
-					'damages' => hp
-					*/
-					// damagesは{{"red":10},{"blue":15},,,,,,,,}的な配列
-
-					// ゲームリセット
-					turn = 'red';
-					hp = {"red":100,"blue":100};
-				}
-			}
-		}
+		setPostData(message);
 	});
 });
 
@@ -92,11 +49,63 @@ app.get('/', function(req, res){
 app.post('/red', function(req, res){
   console.log(req.query);
   console.log(req.body);
-  res.sendStatus(200)
+  res.sendStatus(200);
+
+  setPostData(req.body);
 });
 
 app.post('/blue', function(req, res){
   console.log(req.query);
   console.log(req.body);
-  res.sendStatus(200)
+  res.sendStatus(200);
+
+  setPostData(req.body);
 });
+
+function setPostData(message){
+	console.log('message:', message);
+	//var decodedArray = JSON.parse(message);
+	var decodedArray = message;
+	
+	if(decodedArray['device']!=undefined && decodedArray['speed']!=undefined){
+		if(decodedArray['device']==turn){
+			// 攻撃側の動きなので無視
+		}else{
+			var attacked = decodedArray['device'];
+			var speed = decodedArray['speed'];
+
+			// ダメージ計算
+			var damage = speed;
+
+			// unityにjson送る
+			var messageForUnity = '{"attacked":"'+attacked+'", "damage":"'+damage+'"}';
+			connections.forEach(function (con, i) {
+				con.send(messageForUnity);
+			});
+
+			// ターン変更
+			turn = decodedArray['device'];
+
+			// HP減少を計算
+			hp[attacked] -= damage;
+			console.log('hp:', hp);
+			if(hp[attacked]<0){
+				// unityにゲーム終了のjson送る
+				/*
+				type: "POST",
+				url : 'https://testmmoos.herokuapp.com/ma_201710/save_result',
+				'user_1_id' => 1,
+				'user_2_id' => 2,
+				'user_1_hp_first' => 100,
+				'user_2_hp_first' => 100,
+				'damages' => hp
+				*/
+				// damagesは{{"red":10},{"blue":15},,,,,,,,}的な配列
+
+				// ゲームリセット
+				turn = 'red';
+				hp = {"red":100,"blue":100};
+			}
+		}
+	}
+}
