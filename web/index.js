@@ -70,8 +70,8 @@ app.post('/blue', function(req, res){
 
 function setPostData(message){
 	console.log('message:', message);
-	var decodedArray = JSON.parse(message);
-	//var decodedArray = message;
+	//var decodedArray = JSON.parse(message);
+	var decodedArray = message;
 	
 	if(decodedArray['device']!=undefined && decodedArray['speed']!=undefined){
 		if(decodedArray['device']==turn){
