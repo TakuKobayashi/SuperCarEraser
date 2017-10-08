@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
 
 public class MainUI : MonoBehaviour {
 	[SerializeField] Slider redSlider;

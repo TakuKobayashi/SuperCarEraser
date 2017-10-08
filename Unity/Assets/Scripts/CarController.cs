@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class CarController : MonoBehaviour {
 	[SerializeField] GameObject redCar;
@@ -10,7 +11,6 @@ public class CarController : MonoBehaviour {
 	void Start () {
 		WebSocketManager.Instance.Connect ("ws://tk2-254-36888.vs.sakura.ne.jp:4000/");
 		WebSocketManager.Instance.OnReceiveMessage += OnReceiveMessage;
-        StartCoroutine(StayScroll());
 	}
 
 	IEnumerator StayScroll()
@@ -22,6 +22,15 @@ public class CarController : MonoBehaviour {
 	}
 
 	public void OnReceiveMessage(string message){
+        Dictionary<string, string> receiveMessage = JsonConvert.DeserializeObject<Dictionary<string, string>>(message);
+        // 初回のHP
+        if(receiveMessage["type"] == "0"){
+		// ターン変更
+		}else if(receiveMessage["type"] == "1"){
+		// ダメージを与えた
+		}else if(receiveMessage["type"] == "2"){
+            
+        }
 		Debug.Log(message);
 		mainUi.ChangeBlueSlider(message);
 		mainUi.ChangeRedSlider(message);
