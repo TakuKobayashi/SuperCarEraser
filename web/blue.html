@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<title>redさんの戦歴</title>
+<title>blueさんの戦歴</title>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <link rel="stylesheet" href="css/all_pure.css" />
 
@@ -14,14 +14,14 @@ table td.right{text-align:right;}
 </head>
 
 <body>
-<div class="big_bold">redさんの戦歴</div>
+<div class="big_bold">blueさんの戦歴</div>
 <div id="history_table"></div>
 <div style="margin-top:2em;">
   <span class="big_bold" style="margin-right:0.4em;">総獲得ポイント</span>
   <span id="total_point">0</span>
   <span>ポイント</span>
 </div>
-<div><a href="point_red.html">&gt;&gt;ポイント交換</a>
+<div><a href="point_blue.html">&gt;&gt;ポイント交換</a>
 
 
 <script type="text/javascript">
@@ -32,7 +32,7 @@ function ajaxResultEmpty(){
 jQuery(function(){
   jQuery.ajax({
     type: "GET",
-    url : 'https://testmmoos.herokuapp.com/ma_201710/history/red',
+    url : 'https://testmmoos.herokuapp.com/ma_201710/history/blue',
     scriptCharset: 'utf-8',
     success: function(resp){
       if(resp==''){
@@ -63,8 +63,8 @@ jQuery(function(){
       for(var i=0; i<decoded.length; i++){
         var row = decoded[i];
         var insert_time = row['insert_time'];
-        var myID = row['user_1_name']=='red' ? 1 : 2;
-        var againstID = row['user_1_name']=='red' ? 2 : 1;
+        var myID = row['user_1_name']=='blue' ? 1 : 2;
+        var againstID = row['user_1_name']=='blue' ? 2 : 1;
         var againstName = row['user_'+againstID+'_name'];
         var myDamage = row['user_'+myID+'_total_damage'];
         var againstDamage = row['user_'+againstID+'_total_damage'];

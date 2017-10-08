@@ -112,7 +112,7 @@ function setPostData(message){
 					'user_2_id': 2,
 					'user_1_hp_first': 100,
 					'user_2_hp_first': 100,
-					'damages' => hp
+					'damages': hp
 				  }
 				};
 				request.post(options, function(error, response, body){});

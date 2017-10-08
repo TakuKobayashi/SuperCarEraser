@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<title>ポイント交換</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<link rel="stylesheet" href="css/all_pure.css" />
+
+<style>
+body{padding:20px;}
+table td.right{text-align:right;}
+.big_bold{font-size:160%; font-weight:bold;}
+</style>
+
+</head>
+
+<body>
+<div style="width:90%; text-align:right; padding-right:2em;">
+  <span class="big_bold" style="margin-right:0.4em;">総獲得ポイント</span>
+  <span id="total_point">0</span>
+  <span>ポイント</span>
+</div>
+<table class="pure-table pure-table-striped" style="margin:10px auto;">
+<thead>
+ <tr>
+  <th>商品イメージ</th>
+  <th>必要ポイント</th>
+  <th>タイプ</th>
+  <th>商品名</th>
+  <th>装着箇所</th>
+  <th>説明</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+  <td><img src="img/1.png" alt="画像1"></td>
+  <td class="right">50</td>
+  <td>初期HPをUP</td>
+  <td>お花</td>
+  <td>車のどこどこの穴に挿す</td>
+  <td>装着すると初期HPを20UPします。</td>
+ </tr>
+ <tr>
+  <td><img src="img/2.png" alt="画像2"></td>
+  <td class="right">100</td>
+  <td>初期HPをUP</td>
+  <td>旗</td>
+  <td>車のどこどこの穴に挿す</td>
+  <td>装着すると初期HPを50UPします。</td>
+ </tr>
+ <tr>
+  <td><img src="img/3.png" alt="画像3"></td>
+  <td class="right">10</td>
+  <td>車体重量UP</td>
+  <td>漬物石</td>
+  <td>車の屋根に固定</td>
+  <td>重さ10グラム。屋根に装着すると防御力が<b>ちょっと</b>UPするかも？？</td>
+ </tr>
+ <tr>
+  <td><img src="img/4.png" alt="画像4"></td>
+  <td class="right">20</td>
+  <td>車体重量UP</td>
+  <td>金の延べ棒（小）</td>
+  <td>車の屋根に固定</td>
+  <td>重さ20グラム。車の屋根に乗っけるアナタはいかれてます。</td>
+ </tr>
+ </tbody>
+</table>
+
+<script type="text/javascript">
+jQuery(function(){
+  jQuery.ajax({
+    type: "GET",
+    url : 'https://testmmoos.herokuapp.com/ma_201710/history/red',
+    scriptCharset: 'utf-8',
+    success: function(resp){
+      if(resp==''){
+        return;
+      }
+
+      decoded = jQuery.parseJSON(resp);
+      if(decoded.length==0){
+        return;
+      }
+
+      var totalPoint = 0;
+      for(var i=0; i<decoded.length; i++){
+        var row = decoded[i];
+        var myID = row['user_1_name']=='red' ? 1 : 2;
+        var againstID = row['user_1_name']=='red' ? 2 : 1;
+        var myDamage = row['user_'+myID+'_total_damage'];
+        var againstDamage = row['user_'+againstID+'_total_damage'];
+        var point = 0;
+        if(parseInt(myDamage)<parseInt(againstDamage)){
+          point = againstDamage - myDamage;
+        }
+        totalPoint += point;
+      }
+      jQuery('#total_point').html(totalPoint);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown){
+      jQuery('#history_table').html(errorThrown.message);
+    }
+  });
+});
+</script>
+</body>
+</html>
